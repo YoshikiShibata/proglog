@@ -1,7 +1,7 @@
 package log
 
 import (
-	"io/ioutil"
+	"io"
 	"os"
 	"testing"
 
@@ -21,7 +21,7 @@ func TestLog(t *testing.T) {
 		"truncate":                          testTruncate,
 	} {
 		t.Run(scenario, func(t *testing.T) {
-			dir, err := ioutil.TempDir("", "store-test")
+			dir, err := os.MkdirTemp("", "store-test")
 			require.NoError(t, err)
 			defer os.RemoveAll(dir)
 
@@ -92,7 +92,7 @@ func testReader(t *testing.T, log *Log) {
 	require.Equal(t, uint64(0), off)
 
 	reader := log.Reader()
-	b, err := ioutil.ReadAll(reader)
+	b, err := io.ReadAll(reader)
 	require.NoError(t, err)
 
 	read := &api.Record{}
