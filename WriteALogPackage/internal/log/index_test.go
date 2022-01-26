@@ -2,7 +2,6 @@ package log
 
 import (
 	"io"
-	"io/ioutil"
 	"os"
 	"testing"
 
@@ -10,7 +9,7 @@ import (
 )
 
 func TestIndex(t *testing.T) {
-	f, err := ioutil.TempFile(os.TempDir(), "index_test")
+	f, err := os.CreateTemp(os.TempDir(), "index_test")
 	require.NoError(t, err)
 	defer os.Remove(f.Name())
 
