@@ -8,6 +8,7 @@ import (
 
 	"github.com/stretchr/testify/require"
 	api "github.com/travisjeffery/proglog/api/v1"
+	"github.com/travisjeffery/proglog/internal/auth"
 	"github.com/travisjeffery/proglog/internal/config"
 	"github.com/travisjeffery/proglog/internal/log"
 	"google.golang.org/grpc"
@@ -97,8 +98,10 @@ func setupTest(t *testing.T, fn func(*Config)) (
 	clog, err := log.NewLog(dir, log.Config{})
 	require.NoError(t, err)
 
+	authorizer := auth.New(config.ACLModelFile, config.ACLPolicyFile)
 	cfg = &Config{
-		CommitLog: clog,
+		CommitLog:  clog,
+		Authorizer: authorizer,
 	}
 	if fn != nil {
 		fn(cfg)
