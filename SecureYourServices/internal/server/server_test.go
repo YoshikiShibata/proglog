@@ -2,8 +2,8 @@ package server
 
 import (
 	"context"
-	"io/ioutil"
 	"net"
+	"os"
 	"testing"
 
 	"github.com/stretchr/testify/require"
@@ -92,7 +92,7 @@ func setupTest(t *testing.T, fn func(*Config)) (
 	require.NoError(t, err)
 	serverCreds := credentials.NewTLS(serverTLSConfig)
 
-	dir, err := ioutil.TempDir("", "server-test")
+	dir, err := os.MkdirTemp("", "server-test")
 	require.NoError(t, err)
 
 	clog, err := log.NewLog(dir, log.Config{})
