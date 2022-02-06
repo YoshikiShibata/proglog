@@ -41,17 +41,17 @@ type Authorizer interface {
 	Authorize(subject, object, action string) error
 }
 
-func NewGRPCServer(config *Config, opts ...grpc.ServerOption) (
+func NewGRPCServer(config *Config, grpcOpts ...grpc.ServerOption) (
 	*grpc.Server,
 	error,
 ) {
-	opts = append(opts, grpc.StreamInterceptor(
+	grpcOpts = append(grpcOpts, grpc.StreamInterceptor(
 		grpc_middleware.ChainStreamServer(
 			grpc_auth.StreamServerInterceptor(authenticate),
 		)), grpc.UnaryInterceptor(grpc_middleware.ChainUnaryServer(
 		grpc_auth.UnaryServerInterceptor(authenticate),
 	)))
-	gsrv := grpc.NewServer(opts...)
+	gsrv := grpc.NewServer(grpcOpts...)
 	srv, err := newgrpcServer(config)
 	if err != nil {
 		return nil, err
