@@ -32,7 +32,7 @@ func (r *Replicator) Join(name, addr string) error {
 	}
 
 	if _, ok := r.servers[name]; ok {
-		// already replicating so skip
+		// すにでレプリケーションを行っているのでスキップ
 		return nil
 	}
 	r.servers[name] = make(chan struct{})
