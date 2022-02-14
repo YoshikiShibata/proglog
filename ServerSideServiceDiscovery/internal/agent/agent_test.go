@@ -100,7 +100,7 @@ func TestAgent(t *testing.T) {
 	require.NoError(t, err)
 	require.Equal(t, consumeResponse.Record.Value, []byte("foo"))
 
-	// wait until replication has finished
+	// レプリケーションが完了するまで待つ
 	time.Sleep(3 * time.Second)
 
 	followerClient := client(t, agents[1], peerTLSConfig)
