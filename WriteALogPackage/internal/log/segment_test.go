@@ -39,8 +39,7 @@ func TestSegment(t *testing.T) {
 
 	// インデックスが最大
 	require.True(t, s.IsMaxed())
-	err = s.Close()
-	require.NoError(t, err)
+	require.NoError(t, s.Close())
 
 	c.Segment.MaxStoreBytes = uint64(len(want.Value) * 3)
 	c.Segment.MaxIndexBytes = 1024
@@ -50,12 +49,10 @@ func TestSegment(t *testing.T) {
 	// maxed store
 	require.True(t, s.IsMaxed())
 
-	err = s.Remove()
-	require.NoError(t, err)
+	require.NoError(t, s.Remove())
 
 	s, err = newSegment(dir, 16, c)
 	require.NoError(t, err)
 	require.False(t, s.IsMaxed())
-	err = s.Close()
-	require.NoError(t, err)
+	require.NoError(t, s.Close())
 }
