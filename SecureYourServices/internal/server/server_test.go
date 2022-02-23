@@ -135,6 +135,7 @@ func testProduceConsume(t *testing.T, client, _ api.LogClient, config *Config) {
 		},
 	)
 	require.NoError(t, err)
+	want.Offset = produce.Offset
 
 	consume, err := client.Consume(ctx, &api.ConsumeRequest{
 		Offset: produce.Offset,
