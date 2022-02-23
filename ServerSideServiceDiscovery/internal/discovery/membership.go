@@ -52,7 +52,7 @@ func (m *Membership) setupSerf() (err error) {
 	if err != nil {
 		return err
 	}
-	go m.eventHandler() //<label id="handlergoroutine" />
+	go m.eventHandler()
 	if m.StartJoinAddrs != nil {
 		_, err = m.serf.Join(m.StartJoinAddrs, true)
 		if err != nil {
