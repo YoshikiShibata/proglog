@@ -17,21 +17,21 @@ func TestMembership(t *testing.T) {
 	m, _ = setupMember(t, m)
 
 	require.Eventually(t, func() bool {
-		return 2 == len(handler.joins) &&
-			3 == len(m[0].Members()) &&
-			0 == len(handler.leaves)
+		return len(handler.joins) == 2 &&
+			len(m[0].Members()) == 3 &&
+			len(handler.leaves) == 0
 	}, 3*time.Second, 250*time.Millisecond)
 
 	require.NoError(t, m[2].Leave())
 
 	require.Eventually(t, func() bool {
-		return 2 == len(handler.joins) &&
-			3 == len(m[0].Members()) &&
-			serf.StatusLeft == m[0].Members()[2].Status &&
-			1 == len(handler.leaves)
+		return len(handler.joins) == 2 &&
+			len(m[0].Members()) == 3 &&
+			m[0].Members()[2].Status == serf.StatusLeft &&
+			len(handler.leaves) == 1
 	}, 3*time.Second, 250*time.Millisecond)
 
-	require.Equal(t, fmt.Sprintf("%d", 2), <-handler.leaves)
+	require.Equal(t, "2", <-handler.leaves)
 }
 
 func setupMember(t *testing.T, members []*Membership) (
