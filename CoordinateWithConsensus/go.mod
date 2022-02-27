@@ -5,6 +5,8 @@ go 1.18
 require (
 	github.com/casbin/casbin v1.9.1
 	github.com/grpc-ecosystem/go-grpc-middleware v1.3.0
+	github.com/hashicorp/raft v1.3.5
+	github.com/hashicorp/raft-boltdb v0.0.0-20211202195631-7d34b9fb3f42
 	github.com/hashicorp/serf v0.9.7
 	github.com/stretchr/testify v1.7.0
 	github.com/travisjeffery/go-dynaport v1.0.0
@@ -24,6 +26,7 @@ require (
 	github.com/golang/protobuf v1.5.0 // indirect
 	github.com/google/btree v0.0.0-20180813153112-4030bb1f1f0c // indirect
 	github.com/hashicorp/errwrap v1.0.0 // indirect
+	github.com/hashicorp/go-hclog v0.9.1 // indirect
 	github.com/hashicorp/go-immutable-radix v1.0.0 // indirect
 	github.com/hashicorp/go-msgpack v0.5.5 // indirect
 	github.com/hashicorp/go-multierror v1.1.0 // indirect
@@ -33,6 +36,7 @@ require (
 	github.com/miekg/dns v1.1.41 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
 	github.com/sean-/seed v0.0.0-20170313163322-e2103e2c3529 // indirect
+	go.etcd.io/bbolt v1.3.5 // indirect
 	go.uber.org/atomic v1.7.0 // indirect
 	go.uber.org/multierr v1.6.0 // indirect
 	golang.org/x/net v0.0.0-20210410081132-afb366fc7cd1 // indirect
