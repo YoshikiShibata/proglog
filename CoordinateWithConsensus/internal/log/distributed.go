@@ -14,6 +14,8 @@ import (
 	"google.golang.org/protobuf/proto"
 
 	"github.com/hashicorp/raft"
+
+	api "github.com/travisjeffery/proglog/api/v1"
 )
 
 type DistributedLog struct {
