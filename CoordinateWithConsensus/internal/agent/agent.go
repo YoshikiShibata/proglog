@@ -107,12 +107,6 @@ func (a *Agent) setupLog() error {
 		return bytes.Compare(b, []byte{byte(log.RaftRPC)}) == 0
 	})
 
-	// identify to mux this is a raft rpc
-	_, err = conn.Write([]byte{byte(RaftRPC)})
-	if err != nil {
-		return nil, err
-	}
-
 	logConfig := log.Config{}
 	logConfig.Raft.StreamLayer = log.NewStreamLayer(
 		raftLn,
@@ -190,7 +184,6 @@ func (a *Agent) Shutdown() error {
 
 	shutdown := []func() error{
 		a.membership.Leave,
-		a.replicator.Close,
 		func() error {
 			a.server.GracefulStop()
 			return nil
