@@ -7,6 +7,7 @@ import (
 
 	"github.com/stretchr/testify/require"
 	api "github.com/travisjeffery/proglog/api/v1"
+	"google.golang.org/protobuf/proto"
 )
 
 func TestSegment(t *testing.T) {
@@ -41,7 +42,8 @@ func TestSegment(t *testing.T) {
 	require.True(t, s.IsMaxed())
 	require.NoError(t, s.Close())
 
-	c.Segment.MaxStoreBytes = uint64(len(want.Value) * 3)
+	p, _ := proto.Marshal(want)
+	c.Segment.MaxStoreBytes = uint64(len(p)+lenWidth) * 4
 	c.Segment.MaxIndexBytes = 1024
 	// 既存のセグメントを再構築
 	s, err = newSegment(dir, 16, c)
