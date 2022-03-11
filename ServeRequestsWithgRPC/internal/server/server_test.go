@@ -11,6 +11,7 @@ import (
 	"github.com/travisjeffery/proglog/internal/log"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
+	"google.golang.org/grpc/status"
 )
 
 func TestServer(t *testing.T) {
@@ -119,8 +120,8 @@ func testConsumePastBoundary(
 	if consume != nil {
 		t.Fatal("consume not nil")
 	}
-	got := grpc.Code(err)
-	want := grpc.Code(api.ErrOffsetOutOfRange{}.GRPCStatus().Err())
+	got := status.Code(err)
+	want := status.Code(api.ErrOffsetOutOfRange{}.GRPCStatus().Err())
 	if got != want {
 		t.Fatalf("got err: %v, want: %v", got, want)
 	}

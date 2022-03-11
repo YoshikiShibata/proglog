@@ -12,6 +12,7 @@ import (
 	"github.com/travisjeffery/go-dynaport"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
+	"google.golang.org/grpc/status"
 
 	api "github.com/travisjeffery/proglog/api/v1"
 	"github.com/travisjeffery/proglog/internal/agent"
@@ -121,8 +122,8 @@ func TestAgent(t *testing.T) {
 	)
 	require.Nil(t, consumeResponse)
 	require.Error(t, err)
-	got := grpc.Code(err)
-	want := grpc.Code(api.ErrOffsetOutOfRange{}.GRPCStatus().Err())
+	got := status.Code(err)
+	want := status.Code(api.ErrOffsetOutOfRange{}.GRPCStatus().Err())
 	require.Equal(t, got, want)
 }
 
