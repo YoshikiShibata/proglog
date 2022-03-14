@@ -66,7 +66,7 @@ func (r *Resolver) ResolveNow(resolver.ResolveNowOptions) {
 	r.mu.Lock()
 	defer r.mu.Unlock()
 	client := api.NewLogClient(r.resolverConn)
-	// get cluster and then set on cc attributes
+	// クラスタを取得して、cc属性を設定する
 	ctx := context.Background()
 	res, err := client.GetServers(ctx, &api.GetServersRequest{})
 	if err != nil {
