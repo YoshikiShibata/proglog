@@ -3,8 +3,7 @@ package log
 import (
 	"io"
 	"os"
-
-	"github.com/tysonmote/gommap"
+	"syscall"
 )
 
 const (
@@ -15,7 +14,8 @@ const (
 
 type index struct {
 	file *os.File
-	mmap gommap.MMap
+	// mmap gommap.MMap
+	mmap []byte
 	size uint64
 }
 
@@ -33,10 +33,26 @@ func newIndex(f *os.File, c Config) (*index, error) {
 	); err != nil {
 		return nil, err
 	}
-	if idx.mmap, err = gommap.Map(
-		idx.file.Fd(),
-		gommap.PROT_READ|gommap.PROT_WRITE,
-		gommap.MAP_SHARED,
+	// github.com/tysonmote/gommapの実装は、Linux/Arm64を
+	// サポートしていません。結果、Apple SiliconのmacOS用の
+	// Dockerでは、Linux/Arm64のイメージが作成しようとして
+	// 失敗します。そのため、syscall.MMapを直接使うコード
+	// に修正してあります。
+	//
+	// 以下のコードは、Windowsでは動作しません。
+	// Windowsで動作させるには10章以前のlog.goを使います。
+	/*
+		if idx.mmap, err = gommap.Map(
+			idx.file.Fd(),
+			gommap.PROT_READ|gommap.PROT_WRITE,
+			gommap.MAP_SHARED,
+	*/
+	if idx.mmap, err = syscall.Mmap(
+		int(idx.file.Fd()),
+		0,
+		int(c.Segment.MaxIndexBytes),
+		syscall.PROT_READ|syscall.PROT_WRITE,
+		syscall.MAP_SHARED,
 	); err != nil {
 		return nil, err
 	}
@@ -44,7 +60,8 @@ func newIndex(f *os.File, c Config) (*index, error) {
 }
 
 func (i *index) Close() error {
-	if err := i.mmap.Sync(gommap.MS_SYNC); err != nil {
+	// if err := i.mmap.Sync(gommap.MS_SYNC); err != nil {
+	if err := syscall.Munmap(i.mmap); err != nil {
 		return err
 	}
 	if err := i.file.Sync(); err != nil {
