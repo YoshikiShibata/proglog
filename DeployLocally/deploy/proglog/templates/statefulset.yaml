@@ -43,7 +43,14 @@ spec:
           name: serf
         args: 
           - --config-file=/var/run/proglog/config.yaml
-        # probes...
+        readinessProbe:
+          exec:
+            command: ["/bin/grpc_health_probe", "-addr=:{{ .Values.rpcPort }}"]
+          initialDelaySeconds: 10
+        livenessProbe:
+          exec:
+            command: ["/bin/grpc_health_probe", "-addr=:{{ .Values.rpcPort }}"]
+          initialDelaySeconds: 10
         volumeMounts:
         - name: datadir
           mountPath: /var/run/proglog
