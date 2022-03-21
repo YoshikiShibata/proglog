@@ -76,12 +76,22 @@ func (l *Log) setup() error {
 func (l *Log) Append(record *api.Record) (uint64, error) {
 	l.mu.Lock()
 	defer l.mu.Unlock()
-	off, err := l.activeSegment.Append(record)
+
+	highestOffset, err := l.highestOffset()
 	if err != nil {
 		return 0, err
 	}
+
 	if l.activeSegment.IsMaxed() {
-		err = l.newSegment(off + 1)
+		err = l.newSegment(highestOffset + 1)
+		if err != nil {
+			return 0, err
+		}
+	}
+
+	off, err := l.activeSegment.Append(record)
+	if err != nil {
+		return 0, err
 	}
 	return off, err
 }
@@ -96,11 +106,9 @@ func (l *Log) Read(off uint64) (*api.Record, error) {
 			break
 		}
 	}
-	// START: before
 	if s == nil || s.nextOffset <= off {
 		return nil, fmt.Errorf("offset out of range: %d", off)
 	}
-	// END: before
 	return s.Read(off)
 }
 
@@ -138,6 +146,11 @@ func (l *Log) LowestOffset() (uint64, error) {
 func (l *Log) HighestOffset() (uint64, error) {
 	l.mu.RLock()
 	defer l.mu.RUnlock()
+
+	return l.highestOffset()
+}
+
+func (l *Log) highestOffset() (uint64, error) {
 	off := l.segments[len(l.segments)-1].nextOffset
 	if off == 0 {
 		return 0, nil
