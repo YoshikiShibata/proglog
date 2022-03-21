@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"os"
 	"os/signal"
@@ -91,6 +92,11 @@ func (c *cli) setupConfig(cmd *cobra.Command, args []string) error {
 	if err != nil {
 		return err
 	}
+	contents, err := os.ReadFile(configFile)
+	if err == nil {
+		fmt.Fprintf(os.Stderr, "\n=== START\n%s\n=== End\n", contents)
+	}
+
 	viper.SetConfigFile(configFile)
 
 	if err = viper.ReadInConfig(); err != nil {
