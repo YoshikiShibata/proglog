@@ -29,7 +29,7 @@ spec:
             bind-addr: "$HOSTNAME.proglog.{{.Release.Namespace}}.svc.cluster.local:{{.Values.serfPort}}"
             bootstrap: $([ $ID = 0 ] && echo true || echo false)
             $([ $ID != 0 ] && echo 'start-join-addrs: "proglog-0.proglog.{{.Release.Namespace}}.svc.cluster.local:{{.Values.serfPort}}"')
-            EOD   
+            EOD
         volumeMounts:
         - name: datadir
           mountPath: /var/run/proglog
