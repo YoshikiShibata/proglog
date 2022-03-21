@@ -115,6 +115,7 @@ func (a *Agent) setupLog() error {
 	)
 	logConfig.Raft.LocalID = raft.ServerID(a.Config.NodeName)
 	logConfig.Raft.Bootstrap = a.Config.Bootstrap
+	logConfig.Raft.CommitTimeout = 1000 * time.Millisecond
 	var err error
 	a.log, err = log.NewDistributedLog(
 		a.Config.DataDir,
