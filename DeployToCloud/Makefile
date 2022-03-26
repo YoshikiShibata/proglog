@@ -56,4 +56,4 @@ compile:
 TAG ?= 0.0.1
 
 build-docker:
-	docker build -t github.com/travisjeffery/proglog:$(TAG) .
+	docker build --platform linux/amd64 -t github.com/travisjeffery/proglog:$(TAG) .
