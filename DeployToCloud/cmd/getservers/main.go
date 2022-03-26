@@ -25,6 +25,6 @@ func main() {
 	}
 	fmt.Println("servers:")
 	for _, server := range res.Servers {
-		fmt.Printf("¥t- %v¥n", server)
+		fmt.Printf("- %v\n", server)
 	}
 }
