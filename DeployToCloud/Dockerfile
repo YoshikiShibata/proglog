@@ -9,7 +9,7 @@ RUN GRPC_HEALTH_PROBE_VERSION=v0.4.8 && \
 ${GRPC_HEALTH_PROBE_VERSION}/grpc_health_probe-linux-amd64 && \
     chmod +x /go/bin/grpc_health_probe
 
-FROM golang:1.18-alpine
+FROM alpine
 COPY --from=build /go/bin/proglog /bin/proglog
 COPY --from=build /go/bin/grpc_health_probe /bin/grpc_health_probe 
 ENTRYPOINT ["/bin/proglog"]
