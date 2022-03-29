@@ -32,7 +32,7 @@ func TestResolver(t *testing.T) {
 	serverCreds := credentials.NewTLS(tlsConfig)
 
 	srv, err := server.NewGRPCServer(&server.Config{
-		GetServerer: &getServers{}, //<label id="get_servers_mock"/>
+		GetServerer: &getServers{},
 	}, grpc.Creds(serverCreds))
 	require.NoError(t, err)
 
