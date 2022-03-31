@@ -107,7 +107,7 @@ func (a *Agent) setupServer() error {
 	if err != nil {
 		return err
 	}
-	rpcAddr, err := a.RPCAddr()
+	rpcAddr, err := a.Config.RPCAddr()
 	if err != nil {
 		return err
 	}
