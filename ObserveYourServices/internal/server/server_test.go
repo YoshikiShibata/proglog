@@ -152,9 +152,9 @@ func setupTest(t *testing.T, fn func(*Config)) (
 	}()
 
 	return rootClient, nobodyClient, cfg, func() {
-		server.Stop()
 		rootConn.Close()
 		nobodyConn.Close()
+		server.Stop()
 		l.Close()
 		if telemetryExporter != nil {
 			time.Sleep(1500 * time.Millisecond)
