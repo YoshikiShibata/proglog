@@ -22,7 +22,7 @@ func TestSegment(t *testing.T) {
 
 	s, err := newSegment(dir, 16, c)
 	require.NoError(t, err)
-	require.Equal(t, uint64(16), s.nextOffset, s.nextOffset)
+	require.Equal(t, uint64(16), s.nextOffset)
 	require.False(t, s.IsMaxed())
 
 	for i := uint64(0); i < 3; i++ {
