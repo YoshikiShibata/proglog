@@ -2,7 +2,6 @@ package server
 
 import (
 	"context"
-	"strings"
 	"time"
 
 	api "github.com/travisjeffery/proglog/api/v1"
@@ -73,16 +72,6 @@ func NewGRPCServer(config *Config, grpcOpts ...grpc.ServerOption) (
 	if err != nil {
 		return nil, err
 	}
-
-	halfSampler := trace.ProbabilitySampler(0.5)
-	trace.ApplyConfig(trace.Config{
-		DefaultSampler: func(p trace.SamplingParameters) trace.SamplingDecision {
-			if strings.Contains(p.Name, "Produce") {
-				return trace.SamplingDecision{Sample: true}
-			}
-			return halfSampler(p)
-		},
-	})
 
 	grpcOpts = append(grpcOpts,
 		grpc.StreamInterceptor(
