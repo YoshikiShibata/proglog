@@ -14,6 +14,8 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/credentials"
+
+	// "google.golang.org/grpc/credentials/insecure"
 	"google.golang.org/grpc/status"
 )
 
@@ -65,6 +67,7 @@ func setupTest(t *testing.T, fn func(*Config)) (
 		require.NoError(t, err)
 		tlsCreds := credentials.NewTLS(tlsConfig)
 		opts := []grpc.DialOption{grpc.WithTransportCredentials(tlsCreds)}
+		// opts := []grpc.DialOption{grpc.WithTransportCredentials(insecure.NewCredentials())}
 		conn, err := grpc.Dial(l.Addr().String(), opts...)
 		require.NoError(t, err)
 		client := api.NewLogClient(conn)
