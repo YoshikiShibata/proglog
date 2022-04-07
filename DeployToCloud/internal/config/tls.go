@@ -9,7 +9,7 @@ import (
 
 func SetupTLSConfig(cfg TLSConfig) (*tls.Config, error) {
 	var err error
-	tlsConfig := &tls.Config{}
+	tlsConfig := &tls.Config{MinVersion: tls.VersionTLS13}
 	if cfg.CertFile != "" && cfg.KeyFile != "" {
 		tlsConfig.Certificates = make([]tls.Certificate, 1)
 		tlsConfig.Certificates[0], err = tls.LoadX509KeyPair(
