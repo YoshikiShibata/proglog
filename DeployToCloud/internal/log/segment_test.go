@@ -11,7 +11,8 @@ import (
 )
 
 func TestSegment(t *testing.T) {
-	dir, _ := os.MkdirTemp("", "segment-test")
+	dir, err := os.MkdirTemp("", "segment-test")
+	require.NoError(t, err)
 	defer os.RemoveAll(dir)
 
 	want := &api.Record{Value: []byte("hello world")}
