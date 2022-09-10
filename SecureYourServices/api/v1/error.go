@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"google.golang.org/genproto/googleapis/rpc/errdetails"
+	codes "google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
 
@@ -13,7 +14,7 @@ type ErrOffsetOutOfRange struct {
 
 func (e ErrOffsetOutOfRange) GRPCStatus() *status.Status {
 	st := status.New(
-		404,
+		codes.OutOfRange,
 		fmt.Sprintf("offset out of range: %d", e.Offset),
 	)
 	msg := fmt.Sprintf(
