@@ -9,13 +9,13 @@ require (
 	github.com/hashicorp/raft-boltdb v0.0.0-20211202195631-7d34b9fb3f42
 	github.com/hashicorp/serf v0.9.7
 	github.com/soheilhy/cmux v0.1.5
-	github.com/stretchr/testify v1.7.0
+	github.com/stretchr/testify v1.8.0
 	github.com/travisjeffery/go-dynaport v1.0.0
 	github.com/tysonmote/gommap v0.0.1
 	go.opencensus.io v0.23.0
-	go.uber.org/zap v1.22.0
+	go.uber.org/zap v1.23.0
 	google.golang.org/genproto v0.0.0-20200526211855-cb27e3aa2013
-	google.golang.org/grpc v1.48.0
+	google.golang.org/grpc v1.50.0
 	google.golang.org/protobuf v1.28.1
 )
 
