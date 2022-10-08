@@ -53,13 +53,13 @@ func setupTest(t *testing.T, fn func(*Config)) (
 	l, err := net.Listen("tcp", "127.0.0.1:0")
 	require.NoError(t, err)
 
-	newClient := func(crtPath, keyPath string) (
+	newClient := func(certPath, keyPath string) (
 		*grpc.ClientConn,
 		api.LogClient,
 		[]grpc.DialOption,
 	) {
 		tlsConfig, err := config.SetupTLSConfig(config.TLSConfig{
-			CertFile: crtPath,
+			CertFile: certPath,
 			KeyFile:  keyPath,
 			CAFile:   config.CAFile,
 			Server:   false,
