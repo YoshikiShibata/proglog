@@ -122,7 +122,7 @@ func TestAgent(t *testing.T) {
 		require.Nil(t, consumeResponse)
 		require.Error(t, err)
 		got := status.Code(err)
-		want := status.Code(api.ErrOffsetOutOfRange{}.GRPCStatus().Err())
+		want := codes.OutOfRange
 		require.Equal(t, got, want)
 	*/
 }

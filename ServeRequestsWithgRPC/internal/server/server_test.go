@@ -10,6 +10,7 @@ import (
 	api "github.com/travisjeffery/proglog/api/v1"
 	"github.com/travisjeffery/proglog/internal/log"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/credentials/insecure"
 	"google.golang.org/grpc/status"
 )
@@ -121,7 +122,7 @@ func testConsumePastBoundary(
 		t.Fatal("consume not nil")
 	}
 	got := status.Code(err)
-	want := status.Code(api.ErrOffsetOutOfRange{}.GRPCStatus().Err())
+	want := codes.OutOfRange
 	if got != want {
 		t.Fatalf("got err: %v, want: %v", got, want)
 	}
