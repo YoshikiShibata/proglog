@@ -30,7 +30,6 @@ type Agent struct {
 	membership *discovery.Membership
 
 	shutdown     bool
-	shutdowns    chan struct{}
 	shutdownLock sync.Mutex
 }
 
@@ -57,8 +56,7 @@ func (c Config) RPCAddr() (string, error) {
 
 func New(config Config) (*Agent, error) {
 	a := &Agent{
-		Config:    config,
-		shutdowns: make(chan struct{}),
+		Config: config,
 	}
 	setup := []func() error{
 		a.setupLogger,
@@ -156,7 +154,7 @@ func (a *Agent) setupServer() error {
 			_ = a.Shutdown()
 		}
 	}()
-	return err
+	return nil
 }
 
 func (a *Agent) setupMembership() error {
@@ -182,7 +180,6 @@ func (a *Agent) Shutdown() error {
 		return nil
 	}
 	a.shutdown = true
-	close(a.shutdowns)
 
 	shutdown := []func() error{
 		a.membership.Leave,
